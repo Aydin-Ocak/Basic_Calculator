@@ -4,80 +4,82 @@ let numbers = document.querySelectorAll(".btn");
 let calc = document.querySelector("#calc");
 let deleteBtn = document.querySelector("#deleteBtn");
 
-let val1 = 0;
-let val2 = 0;
-let stage = false;
+let firstValue = 0;
+let secondValue = 0;
+let isSecondValue = false;
 let oprt;
 
-valueArea.textContent = val1;
+valueArea.textContent = firstValue;
 
-let clickBtn = (e) => {
+let handleNumberClick = (e) => {
     let value = e.target.textContent;
-    if (stage == false) {
-        val1 = val1 + value;
+    if (isSecondValue == false) {
+        firstValue = firstValue + value;
 
-        valueArea.textContent = val1.substring(1);
+        valueArea.textContent = firstValue.substring(1);
     } else {
-        val2 = val2 + value;
+        secondValue = secondValue + value;
 
-        valueArea.textContent = val2.substring(1);
+        valueArea.textContent = secondValue.substring(1);
     }
 
 }
-let clickOprt = (e) => {
-    valueArea.textContent = val2;
+let handleOperatorClick = (e) => {
+    valueArea.textContent = secondValue;
 
     oprt = e.target.textContent;
-    stage = true;
+    isSecondValue = true;
 }
 
-let calcnum = () => {
-    if(val1 != 0 && val2 != 0){
+let calculateResult = () => {
+    if (firstValue != 0 && secondValue != 0) {
         if (oprt == "+") {
-            let total = parseFloat(val1.substring(1)) + parseFloat(val2.substring(1));
+            let total = parseFloat(firstValue.substring(1)) + parseFloat(secondValue.substring(1));
             valueArea.textContent = total;
-            val1 ="0" + total;
+            firstValue = "0" + total;
+            console.log(`Total: ${total}`);
         }
         else if (oprt == "-") {
-            let total = parseFloat(val1.substring(1)) - parseFloat(val2.substring(1));
+            let total = parseFloat(firstValue.substring(1)) - parseFloat(secondValue.substring(1));
             valueArea.textContent = total;
-            val1 ="0" + total;
+            firstValue = "0" + total;
+            console.log(`Total: ${total}`);
         }
         else if (oprt == "*") {
-            let total = parseFloat(val1.substring(1)) * parseFloat(val2.substring(1));
+            let total = parseFloat(firstValue.substring(1)) * parseFloat(secondValue.substring(1));
             valueArea.textContent = total;
-            val1 ="0" + total;
+            firstValue = "0" + total;
+            console.log(`Total: ${total}`);
         }
         else if (oprt == "/") {
-            let total = parseFloat(val1.substring(1)) / parseFloat(val2.substring(1));
+            let total = parseFloat(firstValue.substring(1)) / parseFloat(secondValue.substring(1));
             valueArea.textContent = total;
-            val1 ="0" + total;
+            firstValue = "0" + total;
+            console.log(`Total: ${total}`);
         }
-    }else{
-        
     }
-    val2 = 0;
+    secondValue = 0;
 }
 
-let deleteFunc = () => {
-    val1 = 0;
-    val2 = 0;
+let resetCalculator  = () => {
+    firstValue = 0;
+    secondValue = 0;
     oprt = null;
-    stage = false;
+    isSecondValue = false;
 
-    valueArea.textContent = val1;
+    valueArea.textContent = firstValue;
 }
 
-calc.addEventListener("click", calcnum);
+calc.addEventListener("click", calculateResult);
 
-deleteBtn.addEventListener("click", deleteFunc)
+deleteBtn.addEventListener("click", resetCalculator )
 
 for (let i = 0; i < operators.length; i++) {
-    operators[i].addEventListener("click", clickOprt);
+    operators[i].addEventListener("click", handleOperatorClick);
 }
 
 
 for (let i = 0; i < numbers.length; i++) {
-    numbers[i].addEventListener("click", clickBtn);
+    numbers[i].addEventListener("click", handleNumberClick);
 }
 
